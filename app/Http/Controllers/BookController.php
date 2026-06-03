@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Genre;
 
@@ -53,5 +54,42 @@ class BookController extends Controller
         return redirect()
             ->route('books.index')
             ->with('success', '書籍を登録しました');
+    }
+
+    public function edit(Book $book): View
+    {
+        $this->authorize('update', $book);
+        $genres = Genre::all();
+
+        return view('books.edit', compact('book', 'genres'));
+    }
+
+    public function update(UpdateBookRequest $request, Book $book): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $book->update([
+            'title' => $validated['title'],
+            'author' => $validated['author'],
+            'isbn' => $validated['isbn'],
+            'published_date' => $validated['published_date'],
+            'description' => $validated['description'],
+            'image_url' => $validated['image_url'],
+            'user_id' => auth()->id(),
+        ]);
+
+        $book->genres()->sync($validated['genres']);
+
+        return redirect()
+            ->route('books.show', $book)
+            ->with('success', '書籍を更新しました');
+    }
+
+    public function destroy(Book $book): RedirectResponse
+    {
+        $this->authorize('delete', $book);
+        $book->delete();
+
+        return redirect()->route('books.index');
     }
 }
