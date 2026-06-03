@@ -16,7 +16,7 @@ class BookSeeder extends Seeder
     public function run(): void
     {
         $user = User::first();
-        $faker = Faker::create();
+        $faker = Faker::create('ja_JP');
 
         $books = [
             ['title' => '吾輩は猫である', 'author' => '夏目漱石', 'isbn' => '9784101010014', 'published_date' => '1905-01-01', 'description' => $faker->realText(100), 'image_url' => 'https://placehold.co/200x300/e2e8f0/475569?text=1', 'user_id' => $user->id, 'genres' => ['小説']],
@@ -29,7 +29,7 @@ class BookSeeder extends Seeder
             ['title' => '嫌われる勇気', 'author' => '岸見一郎・古賀史健', 'isbn' => '9784478025819', 'published_date' => '2013-12-13', 'description' => $faker->realText(100), 'image_url' => 'https://placehold.co/200x300/e2e8f0/475569?text=8', 'user_id' => $user->id, 'genres' => ['自己啓発']],
             ['title' => '火花', 'author' => '又吉直樹', 'isbn' => '9784163902302', 'published_date' => '2015-03-11', 'description' => $faker->realText(100), 'image_url' => 'https://placehold.co/200x300/e2e8f0/475569?text=9', 'user_id' => $user->id, 'genres' => ['小説']],
             ['title' => 'FACTFULNESS', 'author' => 'ハンス・ロスリング', 'isbn' => '9784822289607', 'published_date' => '2019-01-11', 'description' => $faker->realText(100), 'image_url' => 'https://placehold.co/200x300/e2e8f0/475569?text=10', 'user_id' => $user->id, 'genres' => ['ビジネス', '科学']],
-            ['title' => 'コンテナ物語', 'author' => 'マルク・レビンソン', 'isbn' => '9784822251468', 'published_date' => '2007-01-18 ', 'description' => $faker->realText(100), 'image_url' => 'https://placehold.co/200x300/e2e8f0/475569?text=11', 'user_id' => $user->id, 'genres' => ['ビジネス', '歴史']],
+            ['title' => 'コンテナ物語', 'author' => 'マルク・レビンソン', 'isbn' => '9784822251468', 'published_date' => '2007-01-18', 'description' => $faker->realText(100), 'image_url' => 'https://placehold.co/200x300/e2e8f0/475569?text=11', 'user_id' => $user->id, 'genres' => ['ビジネス', '歴史']],
         ];
 
         foreach ($books as $data) {

@@ -22,9 +22,9 @@ class Book extends Model
         'user_id',
     ];
 
-    protected $casts = [
-        'published_date' => 'date',
-    ];
+    // protected $casts = [
+    //     'published_date' => 'date:Y-m-d',
+    // ];
 
     public function user(): BelongsTo
     {

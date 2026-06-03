@@ -18,7 +18,7 @@ class FavoriteSeeder extends Seeder
                               ->pluck('id')
                               ->toArray();
 
-            $user->favorites()->syncWithoutDetaching($selected);
+            $user->favoriteBook()->syncWithoutDetaching($selected);
         }
     }
 }
