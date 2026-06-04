@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreGenreRequest;
+use App\Http\Requests\UpdateGenreRequest;
 use App\Models\Genre;
 
 class GenreController extends Controller
@@ -47,6 +48,19 @@ class GenreController extends Controller
     public function edit(Genre $genre): View
     {
         return view('genres.edit', compact('genre'));
+    }
+
+    public function update(UpdateGenreRequest $request, Genre $genre): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $genre->update([
+            'name' => $validated['name'],
+        ]);
+
+        return redirect()
+            -> route('genres.index')
+            -> with('success', 'ジャンル名を編集しました');
     }
 
     public function destroy(Genre $genre): RedirectResponse
