@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReviewLikeController;
 
@@ -36,8 +37,10 @@ Route::middleware('auth')->group(function () {
     // お気に入り一覧
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
+    // ジャンルCRUD
+    Route::resource('genres', GenreController::class);
+
     Route::get('/ranking', fn() => '準備中')->name('ranking.index');
-    Route::get('/genres', fn() => '準備中')->name('genres.index');
 });
 
 
