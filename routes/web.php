@@ -13,9 +13,15 @@ Route::get('/books/{book}', [BookController::class, 'show'])->whereNumber('book'
 
 // ログイン必須
 Route::middleware('auth')->group(function () {
+    // 書籍CRUD
+    Route::resource('/books', BookController::class)->except('index', 'show');
+
     // 書籍お気に入り
     Route::post('/books/{book}/favorites', [FavoriteController::class, 'favorites'])->name('favorites.toggle');
 
+    // お気に入り一覧
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    
     // レビュー
     Route::post('/books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/reviews/{review}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
@@ -24,18 +30,6 @@ Route::middleware('auth')->group(function () {
 
     // レビューいいね
     Route::post('/reviews/{review}/like', [ReviewLikeController::class, 'like'])->name('reviews.like');
-
-    // 書籍登録
-    Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
-    Route::post('/books', [BookController::class, 'store'])->name('books.store');
-
-    // 書籍編集・削除
-    Route::get('/book/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
-    Route::put('/book/{book}', [BookController::class, 'update'])->name('books.update');
-    Route::delete('/book/{book}', [BookController::class, 'destroy'])->name('books.destroy');
-
-    // お気に入り一覧
-    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
     // ジャンルCRUD
     Route::resource('genres', GenreController::class);

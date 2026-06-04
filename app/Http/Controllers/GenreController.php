@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StoreGenreRequest;
 use App\Models\Genre;
 
 class GenreController extends Controller
@@ -28,6 +29,19 @@ class GenreController extends Controller
     public function create(): View
     {
         return view('genres.create');
+    }
+
+    public function store(StoreGenreRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        $genre = Genre::create([
+                'name' => $validated['name'],
+            ]);
+
+        return redirect()
+            -> route('genres.index')
+            -> with('success', 'ジャンルを登録しました');
     }
 
     public function edit(Genre $genre): View
