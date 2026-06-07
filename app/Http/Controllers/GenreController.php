@@ -45,8 +45,14 @@ class GenreController extends Controller
             -> with('success', 'ジャンルを登録しました');
     }
 
-    public function edit(Genre $genre): View
+    public function edit(Genre $genre): RedirectResponse|View
     {
+        if ($genre->books()->exists()) {
+            return redirect()
+                ->back()
+                ->with('error', 'このジャンルには書籍が紐づいているので編集できません');
+        }    
+
         return view('genres.edit', compact('genre'));
     }
 
