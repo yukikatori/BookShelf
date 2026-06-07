@@ -22,6 +22,7 @@ class BookResource extends JsonResource
             'description' => $this->description,
             'image_url' => $this->image_url,
             'created_at' => $this->created_at,
+            'user_id' => $this->user_id,
             'genres' => GenreResource::collection($this->genres),
             'avg_rating' => $this->reviews_avg_rating
                 ? round($this->reviews_avg_rating, 1)

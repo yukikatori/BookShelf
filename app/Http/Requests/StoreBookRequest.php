@@ -41,6 +41,7 @@ class StoreBookRequest extends FormRequest
             'author.required' => '著者を入力してください',
             'author.max' => '著者は255文字以内で入力してください',
             'published_date.required' => '出版日を入力してください',
+            'published_date.date' => '日付の形式で入力してください',
             'isbn.required' => 'ISBNコードを入力してください',
             'isbn.digits' => 'ISBNコードは13桁の数字で入力してください',
             'isbn.unique' => '入力したISBNコードは既に使用されています',

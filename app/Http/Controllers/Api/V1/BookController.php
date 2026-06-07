@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Api\V1\IndexBookRequest;
+use App\Http\Requests\Api\V1\StoreBookRequest;
 use App\Http\Resources\Api\V1\BookResource;
 use App\Models\Book;
+use App\Models\Genre;
 
 class BookController extends Controller
 {
@@ -37,11 +39,33 @@ class BookController extends Controller
     {
         $book->load(['genres', 'reviews'])
             ->loadAvg('reviews', 'rating')
-            ->loadCount('reviews')
-            ->get();
+            ->loadCount('reviews');
 
         return response()->json([
             'data' => new BookResource($book),
         ], 200);
+    }
+
+    public function store(StoreBookRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+
+        $book = Book::create([
+            'title' => $validated['title'],
+            'author' => $validated['author'],
+            'isbn' => $validated['isbn'],
+            'published_date' => $validated['published_date'],
+            'description' => $validated['description'],
+            'image_url' => $validated['image_url'],
+            'user_id' => $validated['user_id'],
+        ]);
+
+        $genreIds = Genre::whereIn('name', $validated['genres'])->pluck('id');
+
+        $book->genres()->sync($genreIds);
+
+        return response()->json([
+            'data' => new BookResource($book),
+        ], 201);
     }
 }

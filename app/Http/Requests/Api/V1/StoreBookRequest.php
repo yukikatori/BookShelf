@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBookRequest extends FormRequest
+class StoreBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,13 @@ class UpdateBookRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
-            'isbn' => 'required|digits:13|unique:books,isbn,' . $this->route('book')->id,
+            'isbn' => 'required|digits:13|unique:books,isbn',
             'published_date' => 'required|date',
             'description' => 'nullable|string|max:1000',
             'image_url' => 'nullable|url|max:255',
             'genres' => 'required|array',
-            'genres.*' => 'integer|exists:genres,id'
+            'genres.*' => 'string|exists:genres,name',
+            'user_id' => 'required|integer|exists:users,id',
         ];
     }
 
@@ -48,7 +49,10 @@ class UpdateBookRequest extends FormRequest
             'description.max' => '説明は1000文字以内で入力してください',
             'image_url.url' => 'URL形式で入力してください',
             'image_url.max' => 'URLは255文字以内で入力してください',
-            'genres.required' => 'ジャンルを選択してください',
+            'genres.required' => 'ジャンルを指定してください',
+            'genres.*.exists' => '指定されたジャンルは存在しません',
+            'user_id.required' => 'ユーザーIDを指定してください',
+            'user_id.exists' => '指定されたユーザーIDは存在しません',
         ];
     }
 }
