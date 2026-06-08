@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Api\V1\IndexBookRequest;
 use App\Http\Requests\Api\V1\StoreBookRequest;
+use App\Http\Requests\Api\V1\UpdateBookRequest;
 use App\Http\Resources\Api\V1\BookResource;
 use App\Models\Book;
 use App\Models\Genre;
@@ -67,5 +68,27 @@ class BookController extends Controller
         return response()->json([
             'data' => new BookResource($book),
         ], 201);
+    }
+
+    public function update(UpdateBookRequest $request, Book $book): JsonResponse
+    {
+        $validated = $request->validated();
+
+        $book->update([
+            'title' => $validated['title'],
+            'author' => $validated['author'],
+            'isbn' => $validated['isbn'],
+            'published_date' => $validated['published_date'],
+            'description' => $validated['description'],
+            'image_url' => $validated['image_url'],
+            'user_id' => $validated['user_id'],
+        ]);
+
+        $genreIds = Genre::whereIn('name', $validated['genres'])->pluck('id');
+        $book->genres()->sync($genreIds);
+
+        return response()->json([
+            'data' => new BookResource($book),
+        ], 200);
     }
 }
