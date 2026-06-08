@@ -91,4 +91,11 @@ class BookController extends Controller
             'data' => new BookResource($book),
         ], 200);
     }
+
+    public function destroy(Book $book): JsonResponse
+    {
+        $book->delete();
+
+        return response()->json(null, 204);
+    }
 }
