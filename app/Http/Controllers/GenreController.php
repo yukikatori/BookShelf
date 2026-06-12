@@ -49,7 +49,7 @@ class GenreController extends Controller
     {
         if ($genre->books()->exists()) {
             return redirect()
-                ->back()
+                ->route('genres.index')
                 ->with('error', 'このジャンルには書籍が紐づいているので編集できません');
         }    
 
@@ -58,6 +58,12 @@ class GenreController extends Controller
 
     public function update(UpdateGenreRequest $request, Genre $genre): RedirectResponse
     {
+        if ($genre->books()->exists()) {
+            return redirect()
+                ->route('genres.index')
+                ->with('error', 'このジャンルには書籍が紐づいているので編集できません');
+        }  
+
         $validated = $request->validated();
 
         $genre->update([
@@ -73,14 +79,14 @@ class GenreController extends Controller
     {
         if ($genre->books()->exists()) {
             return redirect()
-                ->back()
+                ->route('genres.index')
                 ->with('error', 'このジャンルには書籍が紐づいているので削除できません');
         }
 
         $genre->delete();
 
         return redirect()
-            ->back()
+            ->route('genres.index')
             ->with('success', 'ジャンルを削除しました');
     }
 }

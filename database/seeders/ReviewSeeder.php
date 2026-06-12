@@ -36,11 +36,19 @@ class ReviewSeeder extends Seeder
             foreach ($books as $book) {
                 if ($remainReviews <= 0) break;
 
+                $currentCount = Review::where('book_id', $book->id)->count();
+
+                if ($currentCount >= 4) {
+                    continue;
+                }
+
+                $maxAddable = 4 - $currentCount;
+
                 $reviewedUserIds = Review::where('book_id', $book->id)->pluck('user_id');
                 $availableUsers = $users->whereNotIn('id', $reviewedUserIds);
 
                 $extraCount = rand(0, 2);
-                $extraCount = min($extraCount, $remainReviews);
+                $extraCount = min($extraCount, $maxAddable, $remainReviews);
 
                 if ($extraCount > 0) {
                     foreach ($availableUsers->random($extraCount) as $user) {

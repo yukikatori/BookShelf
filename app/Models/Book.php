@@ -75,7 +75,8 @@ class Book extends Model
                     break;
                 
                 case 'rating':
-                    $query->orderBy('reviews_avg_rating', 'desc');
+                    $query->orderBy('reviews_avg_rating', 'desc')
+                        ->orderBy('created_at', 'desc');
                     break;
             }
         }

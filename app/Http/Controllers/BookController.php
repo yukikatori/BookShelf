@@ -66,6 +66,8 @@ class BookController extends Controller
 
     public function update(UpdateBookRequest $request, Book $book): RedirectResponse
     {
+        $this->authorize('update', $book);
+
         $validated = $request->validated();
 
         $book->update([

@@ -13,6 +13,6 @@ class ReviewLikeController extends Controller
         $user = auth()->user();
         $user->likedReviews()->toggle($review->id);
 
-        return redirect()->back();
+        return redirect()->route('books.show', $review->book);
     }
 }

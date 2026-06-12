@@ -23,7 +23,7 @@ class ReviewController extends Controller
         ]);
         
         return redirect()
-            ->back()
+            ->route('books.show', $book)
             ->with('success', 'レビューを投稿しました');
     }
 
@@ -36,6 +36,8 @@ class ReviewController extends Controller
 
     public function update(UpdateReviewRequest $response, Review $review): RedirectResponse
     {
+        $this->authorize('update', $review);
+
         $validated = $response->validated();
 
         $review->update([
@@ -45,7 +47,7 @@ class ReviewController extends Controller
 
         return redirect()
             ->route('books.show', $review->book)
-            ->with('success', 'レビューを更新しました');
+            ->with('success', 'レビューを編集しました');
     }
 
     public function destroy(Review $review): RedirectResponse
@@ -54,7 +56,7 @@ class ReviewController extends Controller
         $review->delete();
 
         return redirect()
-            ->back()
+            ->route('books.show', $review->book)
             ->with('success', 'レビューを削除しました');
     }
 }

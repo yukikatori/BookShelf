@@ -14,7 +14,7 @@ class FavoriteController extends Controller
         $user = auth()->user();
         $user->favoriteBooks()->toggle($book->id);
 
-        return redirect()->back();
+        return redirect()->route('books.show', $book);
     }
 
     public function index(): View
