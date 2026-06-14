@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\IndexBookRequest;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
@@ -42,6 +44,31 @@ class BookController extends Controller
 
         return view('books.create', compact('genres'));
     }
+
+    public function searchByIsbn($isbn): JsonResponse
+    {
+        $response = Http::get('https://www.googleapis.com/books/v1/volumes', [
+            'q' => 'isbn:' . $isbn,
+        ]);
+
+        $data = $response->json();
+
+        if (!isset($data['items'][0])) {
+            return response()->json([
+                'error' => '書籍が見つかりませんでした。',
+            ], 404);
+        }
+
+        $book = $data['items'][0]['volumeInfo'];
+
+        return response()->json([
+            'title' => $book['title'] ?? null,
+            'author' => $book['authors'][0] ?? null,
+            'published_date' => $book['publishedDate'] ?? null,
+            'image_url' => $book['imageLinks']['thumbnail'] ?? null,
+        ]);
+    }
+
 
     public function store(StoreBookRequest $request): RedirectResponse
     {

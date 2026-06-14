@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->string('isbn', 13)->nullable()->change();
-            $table->date('published_date')->nullable()->change();
+            $table->dropColumn('isbn');
+            $table->dropColumn('published_date');
+        });
+
+        Schema::table('books', function (Blueprint $table) {
+            $table->string('isbn', 13)->nullable();
+            $table->date('published_date')->nullable();
         });
     }
 
@@ -23,8 +28,13 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->string('isbn', 13)->nullable(false)->change();
-            $table->date('published_date')->nullable(false)->change();
+            $table->dropColumn('isbn');
+            $table->dropColumn('published_date');
+        });
+
+        Schema::table('books', function (Blueprint $table) {
+            $table->string('isbn', 13);
+            $table->date('published_date');
         });
     }
 };

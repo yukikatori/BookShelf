@@ -19,6 +19,7 @@ Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.index
 Route::middleware('auth')->group(function () {
     // 書籍CRUD
     Route::resource('/books', BookController::class)->except('index', 'show');
+    Route::get('/books/isbn/{isbn}', [BookController::class, 'searchByIsbn'])->name('books.searchByIsbn');
 
     // 書籍お気に入り
     Route::post('/books/{book}/favorites', [FavoriteController::class, 'favorites'])->name('favorites.toggle');
@@ -37,7 +38,13 @@ Route::middleware('auth')->group(function () {
 
     // ジャンルCRUD
     Route::resource('genres', GenreController::class);
+
+    // マイ読書レポート
+    Route::get('/reports', fn() => '準備中')->name('reports.index');
 });
+
+
+Route::get('/reading_plans', fn() => '準備中')->name('reading_plans.index');
 
 
 

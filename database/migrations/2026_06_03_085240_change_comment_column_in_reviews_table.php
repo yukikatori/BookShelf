@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->string('comment', 255)->change();
+            $table->dropColumn('comment');
+        });
+
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->string('comment', 255);
         });
     }
 
@@ -22,7 +26,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->text('comment')->change();
+            $table->dropColumn('comment');
+        });
+
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->text('comment');
         });
     }
 };
