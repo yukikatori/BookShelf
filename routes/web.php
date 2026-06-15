@@ -7,6 +7,7 @@ use App\Http\Controllers\GenreController;
 use App\Http\Controllers\RankingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReviewLikeController;
+use App\Http\Controllers\ReportController;
 
 // 書籍一覧・詳細
 Route::get('/', [BookController::class, 'index'])->name('books.index');
@@ -40,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('genres', GenreController::class);
 
     // マイ読書レポート
-    Route::get('/reports', fn() => '準備中')->name('reports.index');
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 });
 
 
