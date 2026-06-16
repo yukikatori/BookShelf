@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -28,6 +30,12 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'error' => '指定された書籍が見つかりません',
             ], 404);
+        }
+
+        if ($exception instanceof AuthenticationException) {
+            return response()->json([
+                'error' => '認証情報が正しくありません',
+            ], 401);
         }
 
         return parent::render($request, $exception);

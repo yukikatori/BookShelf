@@ -13,7 +13,8 @@
 - ISBN 検索（Google Books API 連携）
 - 書籍キーワード検索、ジャンル絞り込み、ソート機能（登録日、評価順、タイトル順（utf8mb4_ja_0900_as_cs））
 - マイ読書レポート機能
-- 公開 API（Sanctum による API 認証）
+- 公開 API（一覧、表示）
+- Sanctum による API 認証（登録、編集、削除）
 
 ## ER図
 ![ER Diagram](./images/Bookshelf_ER_diagram.png)
