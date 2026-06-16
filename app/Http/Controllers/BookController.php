@@ -47,8 +47,10 @@ class BookController extends Controller
 
     public function searchByIsbn($isbn): JsonResponse
     {
+        $apiKey = config('services.google_books.key');
         $response = Http::get('https://www.googleapis.com/books/v1/volumes', [
             'q' => 'isbn:' . $isbn,
+            'key' => $apiKey,
         ]);
 
         $data = $response->json();
@@ -65,6 +67,7 @@ class BookController extends Controller
             'title' => $book['title'] ?? null,
             'author' => $book['authors'][0] ?? null,
             'published_date' => $book['publishedDate'] ?? null,
+            'description' => $book['description'] ?? null,
             'image_url' => $book['imageLinks']['thumbnail'] ?? null,
         ]);
     }
