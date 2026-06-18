@@ -5,6 +5,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\RankingController;
+use App\Http\Controllers\ReadingPlanController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReviewLikeController;
 use App\Http\Controllers\ReportController;
@@ -19,7 +20,7 @@ Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.index
 // ログインが必要な項目
 Route::middleware('auth')->group(function () {
     // 書籍CRUD
-    Route::resource('/books', BookController::class)->except('index', 'show');
+    Route::resource('books', BookController::class)->except('index', 'show');
     Route::get('/books/isbn/{isbn}', [BookController::class, 'searchByIsbn'])->name('books.searchByIsbn');
 
     // 書籍お気に入り
@@ -42,10 +43,8 @@ Route::middleware('auth')->group(function () {
 
     // マイ読書レポート
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
+    // 読書計画
+    Route::resource('reading-plans', ReadingPlanController::class);
+    Route::post('/reading-plans/{plan}/complete', [ReadingPlanController::class, 'complete'])->name('reading-plans.complete');
 });
-
-
-Route::get('/reading_plans', fn() => '準備中')->name('reading_plans.index');
-
-
-

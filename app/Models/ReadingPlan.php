@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 class ReadingPlan extends Model
 {
@@ -31,5 +32,14 @@ class ReadingPlan extends Model
     public function book(): BelongsTo
     {
         return $this->belongsTo(Book::class);
+    }
+
+    public function scopeFilter(Builder $query, array $filters): Builder
+    {
+        if (! empty($filters['currentStatus'])) {
+            $query->where('status', $filters['currentStatus']);
+        }
+
+        return $query;
     }
 }
