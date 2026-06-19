@@ -33,9 +33,13 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof AuthenticationException) {
-            return response()->json([
-                'error' => '認証情報が正しくありません',
-            ], 401);
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'error' => '認証情報が正しくありません',
+                ], 401);
+            }
+
+            return redirect()->guest(route('login'));
         }
 
         return parent::render($request, $exception);
