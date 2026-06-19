@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use App\Http\Requests\StoreReadingPlanRequest;
 use App\Models\Book;
 use App\Models\ReadingPlan;
 
@@ -39,9 +40,21 @@ class ReadingPlanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreReadingPlanRequest $request): RedirectResponse
     {
-        //
+        $validated = $request->validated();
+
+        ReadingPlan::create([
+            'user_id' => auth()->id(),
+            'book_id' => $validated['book_id'],
+            'target_date' => $validated['target_date'],
+            'completed_at' => null,
+            'status' => 1,
+        ]);
+
+        return redirect()
+            ->route('reading-plans.index')
+            ->with('success', '読書計画を作成しました');
     }
 
     /**

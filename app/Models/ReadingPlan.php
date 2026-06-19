@@ -22,6 +22,7 @@ class ReadingPlan extends Model
     protected $casts = [
         'target_date' => 'date',
         'completed_at' => 'date',
+        'status' => \App\Enums\ReadingPlanStatus::class,
     ];
 
     public function user(): BelongsTo
