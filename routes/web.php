@@ -45,6 +45,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
     // 読書計画
-    Route::resource('reading-plans', ReadingPlanController::class);
+    Route::resource('reading-plans', ReadingPlanController::class)->parameters(['reading-plans' => 'plan']);
     Route::post('/reading-plans/{plan}/complete', [ReadingPlanController::class, 'complete'])->name('reading-plans.complete');
 });

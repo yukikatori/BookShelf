@@ -27,9 +27,13 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof ModelNotFoundException) {
-            return response()->json([
-                'error' => '指定された書籍が見つかりません',
-            ], 404);
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'error' => '指定された書籍が見つかりません',
+                ], 404);
+            }
+
+            return redirect()->guest(route('login'));
         }
 
         if ($exception instanceof AuthenticationException) {
