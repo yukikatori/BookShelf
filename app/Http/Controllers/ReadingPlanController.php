@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Enums\ReadingPlanStatus;
+use App\Http\Requests\UpdateReadingPlanRequest;
 use App\Http\Requests\StoreReadingPlanRequest;
 use App\Models\Book;
 use App\Models\ReadingPlan;
@@ -49,8 +50,7 @@ class ReadingPlanController extends Controller
             'user_id' => auth()->id(),
             'book_id' => $validated['book_id'],
             'target_date' => $validated['target_date'],
-            'completed_at' => null,
-            'status' => 1,
+            'status' => ReadingPlanStatus::Reading,
         ]);
 
         return redirect()
@@ -73,9 +73,17 @@ class ReadingPlanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateReadingPlanRequest $request, ReadingPlan $plan): RedirectResponse
     {
-        //
+        $validated = $request->validated();
+
+        $plan->update([
+            'target_date' => $validated['target_date'],
+        ]);
+
+        return redirect()
+            ->route('reading-plans.index')
+            ->with('success', '読書計画を編集しました');
     }
 
     /**
