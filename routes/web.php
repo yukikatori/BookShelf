@@ -9,6 +9,7 @@ use App\Http\Controllers\ReadingPlanController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReviewLikeController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\NotificationController;
 
 // 書籍一覧・詳細
 Route::get('/', [BookController::class, 'index'])->name('books.index');
@@ -45,6 +46,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
     // 読書計画
-    Route::resource('reading-plans', ReadingPlanController::class)->parameters(['reading-plans' => 'plan']);
+    Route::resource('reading-plans', ReadingPlanController::class)->except('show')->parameters(['reading-plans' => 'plan']);
     Route::post('/reading-plans/{plan}/complete', [ReadingPlanController::class, 'complete'])->name('reading-plans.complete');
+
+    // 通知一覧
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'read'])->name('notifications.read');
 });
