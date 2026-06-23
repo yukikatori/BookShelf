@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Book;
 use App\Models\Genre;
+use App\Models\ReadingPlan;
 use App\Models\Review;
 
 class ReportController extends Controller
@@ -17,9 +18,8 @@ class ReportController extends Controller
         // 基本統計
         $totalReviews = Review::where('user_id', $user->id)->count();
 
-        // ↓暫定
-        $booksRead = Review::where('user_id', $user->id)
-            ->distinct('book_id')
+        $booksRead = ReadingPlan::where('user_id', $user->id)
+            ->where('status', 'completed')
             ->count();
 
         $averageRating = Review::where('user_id', $user->id)

@@ -24,7 +24,7 @@ class ReadingPlanReminder extends Notification
     {
         $body = match ($this->timing) {
             'three_days_before' => "「{$this->bookTitle}」の読了期限まであと3日です",
-            'on_due_date'       => "「{$this->bookTitle}」の読了期限は今日です",
+            'on_due_date'       => "「{$this->bookTitle}」の読了期限になりました",
             'three_days_after'  => "「{$this->bookTitle}」の読了期限を3日過ぎています",
             default             => "「{$this->bookTitle}」の読書計画に関する通知です",
         };
