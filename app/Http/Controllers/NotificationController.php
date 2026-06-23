@@ -10,7 +10,10 @@ class NotificationController extends Controller
 {
     public function index(): View
     {
-        $notifications = auth()->user()->notifications;
+        $notifications = auth()->user()
+            ->notifications()
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('notifications.index', compact('notifications'));
     }
