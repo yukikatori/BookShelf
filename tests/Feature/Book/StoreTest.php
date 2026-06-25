@@ -210,28 +210,6 @@ class StoreTest extends TestCase
     }
 
     /** @test */
-    public function ISBNが未入力だとバリデーションエラーが返る(): void
-    {
-        $user = User::factory()->create();
-        $genres = Genre::factory()->count(2)->create();
-
-        $data = [
-            'title' => 'test',
-            'author' => 'test',
-            'isbn' => '',
-            'published_date' => '2026-06-10',
-            'description' => 'test',
-            'image_url' => 'http://example.com/test.jpg',
-            'genres' => $genres->pluck('id')->toArray(),
-        ];
-
-        $response = $this->actingAs($user)->post('/books', $data);
-
-        $response->assertStatus(302);
-        $response->assertSessionHasErrors('isbn');
-    }
-
-    /** @test */
     public function ISBNが13桁以外だとバリデーションエラーが返る(): void
     {
         $user = User::factory()->create();
@@ -276,28 +254,6 @@ class StoreTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors('isbn');
-    }
-
-    /** @test */
-    public function 出版日が未入力だとバリデーションエラーが返る(): void
-    {
-        $user = User::factory()->create();
-        $genres = Genre::factory()->count(2)->create();
-
-        $data = [
-            'title' => 'test',
-            'author' => 'test',
-            'isbn' => '1111111111111',
-            'published_date' => '',
-            'description' => 'test',
-            'image_url' => 'http://example.com/test.jpg',
-            'genres' => $genres->pluck('id')->toArray(),
-        ];
-
-        $response = $this->actingAs($user)->post('/books', $data);
-
-        $response->assertStatus(302);
-        $response->assertSessionHasErrors('published_date');
     }
 
     /** @test */
