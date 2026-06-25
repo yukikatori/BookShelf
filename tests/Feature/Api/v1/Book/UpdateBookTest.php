@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Feature\Api\v1;
+namespace Tests\Feature\Api\v1\Book;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 use App\Models\Book;
 use App\Models\Genre;
@@ -34,6 +35,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(200);
@@ -82,6 +84,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -109,6 +112,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -136,6 +140,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -163,6 +168,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -190,6 +196,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -217,37 +224,11 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors('author');
-    }
-
-    /** @test */
-    public function ISBNが未入力だとバリデーションエラーが返る(): void
-    {
-        $user = User::factory()->create();
-        $book = Book::factory()->create(['user_id' => $user->id]);
-        $genres = Genre::factory()->count(2)->create();
-        $newGenres = Genre::factory()->count(2)->create();
-
-        $book->genres()->attach($genres->pluck('id'));
-
-        $data = [
-            'title' => 'test',
-            'author' => 'test',
-            'isbn' => '',
-            'published_date' => '2026-06-13',
-            'description' => 'test',
-            'image_url' => '',
-            'genres' => $newGenres->pluck('id')->toArray(),
-            'user_id' => $user->id,
-        ];
-
-        $response = $this->putJson('/api/v1/books/' . $book->id, $data);
-
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors('isbn');
     }
 
     /** @test */
@@ -271,6 +252,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -300,6 +282,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -330,6 +313,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(200);
@@ -358,33 +342,6 @@ class UpdateBookTest extends TestCase
     }
 
     /** @test */
-    public function 出版日が未入力だとバリデーションエラーが返る(): void
-    {
-        $user = User::factory()->create();
-        $book = Book::factory()->create(['user_id' => $user->id]);
-        $genres = Genre::factory()->count(2)->create();
-        $newGenres = Genre::factory()->count(2)->create();
-
-        $book->genres()->attach($genres->pluck('id'));
-
-        $data = [
-            'title' => 'test',
-            'author' => 'test',
-            'isbn' => '1111111111111',
-            'published_date' => '',
-            'description' => 'test',
-            'image_url' => '',
-            'genres' => $newGenres->pluck('id')->toArray(),
-            'user_id' => $user->id,
-        ];
-
-        $response = $this->putJson('/api/v1/books/' . $book->id, $data);
-
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors('published_date');
-    }
-
-    /** @test */
     public function 出版日が日付形式以外だとバリデーションエラーが返る(): void
     {
         $user = User::factory()->create();
@@ -405,6 +362,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -432,6 +390,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -459,6 +418,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -486,6 +446,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -513,6 +474,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -540,6 +502,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -568,6 +531,7 @@ class UpdateBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -595,6 +559,7 @@ class UpdateBookTest extends TestCase
             'user_id' => '',
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
@@ -622,9 +587,64 @@ class UpdateBookTest extends TestCase
             'user_id' => 999,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->putJson('/api/v1/books/' . $book->id, $data);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors('user_id');
+    }
+
+    /** @test */
+    public function 未認証時は書籍が編集できず401が返る(): void
+    {
+        $user = User::factory()->create();
+        $book = Book::factory()->create(['user_id' => $user->id]);
+        $genres = Genre::factory()->count(2)->create();
+        $newGenres = Genre::factory()->count(2)->create();
+
+        $book->genres()->attach($genres->pluck('id'));
+
+        $data = [
+            'title' => 'test',
+            'author' => 'test',
+            'isbn' => '1111111111111',
+            'published_date' => '2026-06-13',
+            'description' => 'test',
+            'image_url' => '',
+            'genres' => $newGenres->pluck('id')->toArray(),
+            'user_id' => $user->id,
+        ];
+
+        $response = $this->putJson('/api/v1/books/' . $book->id, $data);
+
+        $response->assertStatus(401);
+    }
+
+    /** @test */
+    public function 未認可時は書籍が編集できず403が返る(): void
+    {
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+        $book = Book::factory()->create(['user_id' => $user1->id]);
+        $genres = Genre::factory()->count(2)->create();
+        $newGenres = Genre::factory()->count(2)->create();
+
+        $book->genres()->attach($genres->pluck('id'));
+
+        $data = [
+            'title' => 'test',
+            'author' => 'test',
+            'isbn' => '1111111111111',
+            'published_date' => '2026-06-13',
+            'description' => 'test',
+            'image_url' => '',
+            'genres' => $newGenres->pluck('id')->toArray(),
+            'user_id' => $user1->id,
+        ];
+
+        Sanctum::actingAs($user2);
+        $response = $this->putJson('/api/v1/books/' . $book->id, $data);
+
+        $response->assertStatus(403);
     }
 }

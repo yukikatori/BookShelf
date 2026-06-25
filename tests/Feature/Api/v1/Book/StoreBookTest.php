@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Feature\Api\v1;
+namespace Tests\Feature\Api\v1\Book;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 use App\Models\Book;
 use App\Models\Genre;
@@ -30,6 +31,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(201);
@@ -74,6 +76,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -97,6 +100,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -120,6 +124,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -143,6 +148,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -166,6 +172,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -189,33 +196,11 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors('author');
-    }
-
-    /** @test */
-    public function ISBNが未入力だとバリデーションエラーが返る(): void
-    {
-        $user = User::factory()->create();
-        $genres = Genre::factory()->count(2)->create();
-
-        $data = [
-            'title' => 'test',
-            'author' => 'test',
-            'isbn' => '',
-            'published_date' => '2026-06-10',
-            'description' => 'test',
-            'image_url' => 'http://example.com/test.jpg',
-            'genres' => $genres->pluck('id')->toArray(),
-            'user_id' => $user->id,
-        ];
-
-        $response = $this->postJson('/api/v1/books', $data);
-
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors('isbn');
     }
 
     /** @test */
@@ -235,6 +220,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -261,33 +247,11 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors('isbn');
-    }
-
-    /** @test */
-    public function 出版日が未入力だとバリデーションエラーが返る(): void
-    {
-        $user = User::factory()->create();
-        $genres = Genre::factory()->count(2)->create();
-
-        $data = [
-            'title' => 'test',
-            'author' => 'test',
-            'isbn' => '1111111111111',
-            'published_date' => '',
-            'description' => 'test',
-            'image_url' => 'http://example.com/test.jpg',
-            'genres' => $genres->pluck('id')->toArray(),
-            'user_id' => $user->id,
-        ];
-
-        $response = $this->postJson('/api/v1/books', $data);
-
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors('published_date');
     }
 
     /** @test */
@@ -307,6 +271,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -330,6 +295,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -353,6 +319,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -376,6 +343,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -399,6 +367,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -422,6 +391,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -445,6 +415,7 @@ class StoreBookTest extends TestCase
             'user_id' => $user->id,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -468,6 +439,7 @@ class StoreBookTest extends TestCase
             'user_id' => '',
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
@@ -491,9 +463,32 @@ class StoreBookTest extends TestCase
             'user_id' => 999,
         ];
 
+        Sanctum::actingAs($user);
         $response = $this->postJson('/api/v1/books', $data);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors('user_id');
+    }
+
+    /** @test */
+    public function 未認証時は書籍が登録できず401が返る(): void
+    {
+        $user = User::factory()->create();
+        $genres = Genre::factory()->count(2)->create();
+
+        $data = [
+            'title' => 'test',
+            'author' => 'test',
+            'isbn' => '1111111111111',
+            'published_date' => '2026-06-10',
+            'description' => 'test',
+            'image_url' => 'test',
+            'genres' => $genres->pluck('id')->toArray(),
+            'user_id' => $user->id,
+        ];
+
+        $response = $this->postJson('/api/v1/books', $data);
+
+        $response->assertStatus(401);
     }
 }

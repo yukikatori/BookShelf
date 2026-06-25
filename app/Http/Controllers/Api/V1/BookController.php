@@ -49,8 +49,6 @@ class BookController extends Controller
 
     public function store(StoreBookRequest $request): JsonResponse
     {
-        $this->authorize('store', Book::class);
-
         $validated = $request->validated();
 
         $book = Book::create([

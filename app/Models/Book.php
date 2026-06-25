@@ -69,7 +69,7 @@ class Book extends Model
                     break;
 
                 case 'title':
-                    $query->orderByRaw('title COLLATE utf8mb4_ja_0900_as_cs ASC');
+                    $query->orderBy('title', 'asc');
                     break;
                 
                 case 'rating':
@@ -108,7 +108,7 @@ class Book extends Model
                     break;
 
                 case 'title':
-                    $query->orderByRaw('title COLLATE utf8mb4_ja_0900_as_cs ASC');
+                    $query->orderBy('title', 'asc');
                     break;
                 
                 case 'rating':
