@@ -13,11 +13,17 @@ return new class extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             $table->dropColumn('isbn');
+        });
+
+        Schema::table('books', function (Blueprint $table) {
             $table->dropColumn('published_date');
         });
 
         Schema::table('books', function (Blueprint $table) {
             $table->string('isbn', 13)->nullable();
+        });
+
+        Schema::table('books', function (Blueprint $table) {
             $table->date('published_date')->nullable();
         });
     }
@@ -29,11 +35,17 @@ return new class extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             $table->dropColumn('isbn');
+        });
+
+        Schema::table('books', function (Blueprint $table) {
             $table->dropColumn('published_date');
         });
 
         Schema::table('books', function (Blueprint $table) {
             $table->string('isbn', 13);
+        });
+
+        Schema::table('books', function (Blueprint $table) {
             $table->date('published_date');
         });
     }
