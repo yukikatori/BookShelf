@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\v1;
+namespace Tests\Feature\Api\v1\Book;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -148,6 +148,38 @@ class IndexBookTest extends TestCase
         $book3->genres()->attach($genre);
 
         $response = $this->getJson('/api/v1/books?sort=latest');
+
+        $response->assertStatus(200);
+
+        $json = $response->json();
+        $this->assertArrayHasKey('data', $json);
+        $this->assertArrayHasKey('meta', $json);
+
+        $titles = array_column($json['data'], 'title');
+
+        $expected = [
+            $book1->title,
+            $book2->title,
+            $book3->title,
+        ];
+
+        $this->assertEquals($expected, $titles);
+    }
+
+    /** @test */
+    public function ソート条件「タイトル順」が機能する(): void
+    {
+        $book1 = Book::factory()->create(['title' => 'a']);
+        $book2 = Book::factory()->create(['title' => 'b']);
+        $book3 = Book::factory()->create(['title' => 'c']);
+
+        $genre = Genre::factory()->create();
+
+        $book1->genres()->attach($genre);
+        $book2->genres()->attach($genre);
+        $book3->genres()->attach($genre);
+
+        $response = $this->getJson('/api/v1/books?sort=title');
 
         $response->assertStatus(200);
 
