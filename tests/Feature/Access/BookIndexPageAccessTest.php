@@ -44,4 +44,16 @@ class BookIndexPageAccessTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    /** @test */
+    public function  検索・フィルタ・並び順が表示される(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+
+        $response->assertSee('キーワード');
+        $response->assertSee('ジャンル');
+        $response->assertSee('並び順');
+    }
 }
