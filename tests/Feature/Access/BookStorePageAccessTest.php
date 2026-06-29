@@ -21,7 +21,7 @@ class BookStorePageAccessTest extends TestCase
     }
 
     /** @test */
-    public function タイトル・著者・ISBN・出版日・説明・画像URLの入力欄、ジャンル一覧が表示される(): void
+    public function タイトル・著者・ISBN・出版日・説明・画像URLの入力欄、ジャンル一覧、ISBN検索が表示される(): void
     {
         $user = User::factory()->create();
         $genres = Genre::factory()->count(5)->create();
@@ -36,6 +36,7 @@ class BookStorePageAccessTest extends TestCase
         $response->assertSee('出版日');
         $response->assertSee('説明');
         $response->assertSee('画像URL');
+        $response->assertSee('ISBN から書籍情報を自動入力');
 
         foreach ($genres as $genre) {
             $response->assertSee($genre->name);
