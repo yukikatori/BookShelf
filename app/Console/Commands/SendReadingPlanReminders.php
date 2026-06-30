@@ -27,7 +27,7 @@ class SendReadingPlanReminders extends Command
                     $daysDiff === 3 => 'three_days_before',
                     $daysDiff === 0 => 'on_due_date',
                     $daysDiff <= -3 => 'three_days_after',
-                    $daysDiff >= 3 => null,
+                    default => null,
                 };
 
                 $alreadySent = $plan->user
