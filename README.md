@@ -22,7 +22,7 @@
 ## 環境構築手順
 1. リポジトリをクローン
 ```
-git clone https://github.com/yukikatori/-BookShelf
+git clone https://github.com/yukikatori/BookShelf
 ```
 
 2. .envファイルの準備
@@ -38,6 +38,14 @@ DB_PORT=3306
 DB_DATABASE=laravel
 DB_USERNAME=sail
 DB_PASSWORD=password
+```
+また、Google Books API 連携のISBN検索を使用するために、APIキーを取得して.envファイルに追加してください。
+Google Books APIキーの設定方法
+・Google Cloud Console (console.cloud.google.com in Bing) にアクセス
+・プロジェクトを作成
+・発行されたキーを .env に設定
+```
+GOOGLE_BOOKS_API_KEY=取得したAPIキー
 ```
 
 3. Composer依存パッケージのインストール
@@ -81,9 +89,18 @@ sail artisan migrate:fresh --seed
 
 7. スケジューラの自動実行設定、読書計画のリマインダー通知の送信
 Laravel のスケジューラを実行するために、以下の cron 設定を追加します。
-Docker（Sail）環境の場合：
+cron を編集します。
+```
+crontab -e
+```
+以下の行を追加します。
 ```
 * * * * * docker exec bookshelf-laravel php artisan schedule:run >> /dev/null 2>&1
+```
+コンテナ名は環境によって異なるため、以下で確認してください。
+CONTAINER NAME が bookshelf-laravel でない場合は、適宜置き換えてください。
+```
+docker ps
 ```
 この設定により、`app/Console/Kernel.php` に定義されたタスクが自動的に実行されます。
 読書計画のリマインダー通知を手動で送信する場合は以下を実行します。
