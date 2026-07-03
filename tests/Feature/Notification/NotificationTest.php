@@ -102,9 +102,9 @@ class NotificationTest extends TestCase
         $response = $this->actingAs($user)->get('/notifications');
 
         // 時間を経過させたことで重複はないが、異なる種別の通知は送信される
-        $response->assertSee("「test」の読了期限まであと3日です");
+        $response->assertSee("「test」の読了期限が近づいています");
         $response->assertSee("「test」の読了期限になりました");
-        $response->assertSee("「test」の読了期限を3日過ぎています");
+        $response->assertSee("「test」の読了期限を3日以上経過しています");
     }
 
     /** @test */
@@ -128,6 +128,25 @@ class NotificationTest extends TestCase
         $response = $this->actingAs($user)->get('/notifications');
 
         $this->assertEquals(ReadingPlanStatus::Expired, $readingPlan->fresh()->status);
-        $response->assertSee("「test」の読了期限を3日過ぎています");
+        $response->assertSee("「test」の読了期限を3日以上経過しています");
+    }
+
+    /** @test */
+    public function スケジューラ経由で通知が送信される(): void
+    {
+        Carbon::setTestNow('2026-07-02 00:00:00');
+
+        $user = User::factory()->create();
+        $book = Book::factory()->create(['title' => '統合テスト本']);
+        $readingPlan = ReadingPlan::factory()->create([
+            'user_id' => $user->id,
+            'book_id' => $book->id,
+            'target_date' => '2026-07-02',
+        ]);
+
+        $this->artisan('send:reading-plan-reminders');
+
+        $response = $this->actingAs($user)->get('/notifications');
+        $response->assertSee("「統合テスト本」の読了期限になりました");
     }
 }

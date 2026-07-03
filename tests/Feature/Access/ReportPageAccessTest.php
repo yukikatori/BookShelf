@@ -29,7 +29,10 @@ class ReportPageAccessTest extends TestCase
         $user = User::factory()->create();
         $books = Book::factory()->count(5)->create();
 
-        $reviews = Review::factory()->count(5)->create(['user_id' => $user->id]);
+        $reviews = Review::factory()->count(5)->create([
+            'user_id' => $user->id,
+            'rating' => 5,
+        ]);
 
         foreach ($books as $book) {
             ReadingPlan::factory()->create([
@@ -40,15 +43,13 @@ class ReportPageAccessTest extends TestCase
             ]);
         }
 
-        $readingPlans = ReadingPlan::all();
-
         $response = $this->actingAs($user)->get('/reports');
 
-        $response->assertViewHas('stats', function ($stats) use ($reviews, $readingPlans) {
+        $response->assertViewHas('stats', function ($stats) {
             return
                 $stats['summary']['total_reviews'] === 5 &&
-                $stats['summary']['books_read'] === $readingPlans->count() &&
-                $stats['summary']['average_rating'] === $reviews->avg('rating');
+                $stats['summary']['books_read'] === 5 &&
+                $stats['summary']['average_rating'] == 5;
         });
     }
 

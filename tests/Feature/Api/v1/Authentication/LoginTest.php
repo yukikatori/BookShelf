@@ -61,4 +61,24 @@ class LoginTest extends TestCase
 
         $response->assertStatus(401);
     }
+
+    /** @test */
+    public function 正しい認証情報の場合はトークンが返る(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'test@example.com',
+            'password' => Hash::make('12345678'),
+        ]);
+
+        $response = $this->postJson('/api/v1/login', [
+            'email' => 'test@example.com',
+            'password' => '12345678',
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['token']);
+
+        $token = $response->json('token');
+        $this->assertNotEmpty($token);
+    }
 }
