@@ -56,7 +56,7 @@ class NotificationPageAccessTest extends TestCase
 
         $response = $this->actingAs($user)->get('/notifications');
 
-        $response->assertSee("「test」の読了期限まであと3日です");
+        $response->assertSee("「test」の読了期限が近づいています");
     }
 
     /** @test */
@@ -94,7 +94,7 @@ class NotificationPageAccessTest extends TestCase
 
         $response = $this->actingAs($user)->get('/notifications');
 
-        $response->assertSee("「test」の読了期限を3日過ぎています");
+        $response->assertSee("「test」の読了期限を3日以上経過しています");
     }
 
     /** @test */
