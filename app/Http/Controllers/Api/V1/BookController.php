@@ -23,6 +23,7 @@ class BookController extends Controller
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
             ->apiFilter($validated)
+            ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
         return response()->json([

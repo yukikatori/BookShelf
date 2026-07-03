@@ -18,9 +18,9 @@ class ReadingPlanSeeder extends Seeder
         // reading（三日以上前）、reading（三日前）、completed、reading（当日）、expired（期日三日後）、completed（期日三日後以降）のステータスを振り分け
         //  reading（三日以上前）、reading（三日前）、reading（当日）、expired（期日三日後）に対して通知が発生する
         $readingPlans = [
-            ['book_id' => $selectedBooks[0]->id, 'target_date' => now()->subDays(4), 'status' => 'completed'],
+            ['book_id' => $selectedBooks[0]->id, 'target_date' => now()->subDays(4), 'completed_at' => now()->subDays(4), 'status' => 'completed'],
             ['book_id' => $selectedBooks[1]->id, 'target_date' => now()->subDays(3), 'status' => 'reading'],
-            ['book_id' => $selectedBooks[2]->id, 'target_date' => now(), 'status' => 'completed'],
+            ['book_id' => $selectedBooks[2]->id, 'target_date' => now(), 'completed_at' => now(), 'status' => 'completed'],
             ['book_id' => $selectedBooks[3]->id, 'target_date' => now(), 'status' => 'reading'],
             ['book_id' => $selectedBooks[4]->id, 'target_date' => now()->addDays(3), 'status' => 'reading'],
             ['book_id' => $selectedBooks[5]->id, 'target_date' => now()->addDays(4), 'status' => 'reading'],
@@ -36,6 +36,7 @@ class ReadingPlanSeeder extends Seeder
                 ],
                 [
                     'status' => $plan['status'],
+                    'completed_at' => $plan['completed_at'] ?? null,
                 ],
             );
         }
@@ -55,6 +56,7 @@ class ReadingPlanSeeder extends Seeder
                     ],
                     [
                         'status' => $plan['status'],
+                        'completed_at' => $plan['completed_at'] ?? null,
                     ],
                 );
             }
