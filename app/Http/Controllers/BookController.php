@@ -55,6 +55,12 @@ class BookController extends Controller
 
         $data = $response->json();
 
+        if ($response->failed()) {
+        return response()->json([
+            'error' => 'Google Books API のクォータを超過しました。.env に GOOGLE_BOOKS_API_KEY を設定してください',
+        ], 500);
+    }
+
         if (!isset($data['items'][0])) {
             return response()->json([
                 'error' => '書籍が見つかりませんでした。',

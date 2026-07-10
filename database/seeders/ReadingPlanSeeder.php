@@ -15,8 +15,8 @@ class ReadingPlanSeeder extends Seeder
         $selectedBooks = $books->random(6);
         $mainUser = User::first();
 
-        // reading（三日以上前）、reading（三日前）、completed、reading（当日）、expired（期日三日後）、completed（期日三日後以降）のステータスを振り分け
-        //  reading（三日以上前）、reading（三日前）、reading（当日）、expired（期日三日後）に対して通知が発生する
+        // reading（四日以上前）、reading（三日前）、completed、reading（当日）、expired（期日三日後）、completed（期日三日後以降）のステータスを振り分け
+        //  reading（四日以上前）、reading（三日前）、reading（当日）、expired（期日三日後）に対して通知が発生する
         $readingPlans = [
             ['book_id' => $selectedBooks[0]->id, 'target_date' => now()->subDays(4), 'completed_at' => now()->subDays(4), 'status' => 'completed'],
             ['book_id' => $selectedBooks[1]->id, 'target_date' => now()->subDays(3), 'status' => 'reading'],
